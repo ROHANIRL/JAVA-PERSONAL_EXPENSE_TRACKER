@@ -1,0 +1,6 @@
+This file is created automatically the first time you add or delete an expense.
+It logs a timestamped line for every change - a simple audit trail alongside the database.
+2026-09-10 15:29:36 - Deleted expense #3
+2026-09-10 15:29:45 - Deleted expense #2
+2026-09-10 15:30:28 - Added Expense: Rs.25000.0 (I LIVE IN A STORAGE AREA LIKE SIZE IN CHANNAI) on 2026-09-10
+2026-09-10 15:30:37 - Added Expense: Rs.10000.0 () on 2026-09-10

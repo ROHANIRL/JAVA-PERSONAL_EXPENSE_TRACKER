@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Expense Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <nav class="sidebar">
+    <div class="logo">&#8377; ExpenseTracker</div>
+    <button class="nav-btn active" data-section="dashboard">&#9670; Dashboard</button>
+    <button class="nav-btn" data-section="add">+ Add Expense</button>
+    <button class="nav-btn" data-section="expenses">&#8801; Expenses</button>
+    <button class="nav-btn" data-section="budgets">&#9635; Budgets</button>
+    <button class="nav-btn" data-section="savings">&#8377; Savings</button>
+    <button class="nav-btn" data-section="family">&#9877; Family &amp; Nutrition</button>
+    <button class="nav-btn" data-section="insights">&#10022; AI Insights</button>
+  </nav>
+
+  <main class="content">
+
+    <section id="section-dashboard" class="section active">
+      <h1>Welcome back!</h1>
+      <p class="tagline">Spend smart. Save more. Eat well.</p>
+      <div class="cards-row">
+        <div class="stat-card"><div class="stripe stripe-primary"></div><div class="stat-label">THIS MONTH SPENT</div><div class="stat-value" id="dash-spent">Rs.0</div></div>
+        <div class="stat-card"><div class="stripe stripe-accent"></div><div class="stat-label">ACTUAL SAVINGS</div><div class="stat-value" id="dash-savings">Rs.0</div></div>
+        <div class="stat-card"><div class="stripe stripe-warning"></div><div class="stat-label">ESSENTIALS COST</div><div class="stat-value" id="dash-essentials">Rs.0</div></div>
+      </div>
+      <div class="card chart-card">
+        <h3>Spending by Category</h3>
+        <canvas id="chart-spending"></canvas>
+      </div>
+    </section>
+
+    <section id="section-add" class="section">
+      <h1>Add a New Expense</h1>
+      <div class="card form-card">
+        <label>Category
+          <div class="inline-field">
+            <select id="add-category"></select>
+            <button class="btn btn-accent" id="add-category-new" type="button">+ New Category</button>
+          </div>
+        </label>
+        <label>Amount (Rs.)<input type="number" id="add-amount" step="0.01"></label>
+        <label>Description<input type="text" id="add-description"></label>
+        <label>Date<input type="date" id="add-date"></label>
+        <button class="btn btn-primary" id="add-submit" type="button">Add Expense</button>
+        <p class="status-msg" id="add-status"></p>
+      </div>
+    </section>
+
+    <section id="section-expenses" class="section">
+      <h1>Your Expenses</h1>
+      <div class="toolbar">
+        <label><input type="radio" name="expense-filter" value="all" checked> All Time</label>
+        <label><input type="radio" name="expense-filter" value="month"> This Month</label>
+        <button class="btn btn-accent" id="expenses-refresh" type="button">Refresh</button>
+        <button class="btn btn-danger" id="expenses-delete" type="button">Delete Selected</button>
+      </div>
+      <div class="card table-card">
+        <table id="expenses-table">
+          <thead><tr><th></th><th>ID</th><th>Category</th><th>Amount (Rs.)</th><th>Description</th><th>Date</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="total-line" id="expenses-total"></p>
+      </div>
+    </section>
+
+    <section id="section-budgets" class="section">
+      <h1>Category Budgets</h1>
+      <div class="card inline-form">
+        <label>Category <select id="budget-category"></select></label>
+        <label>Monthly Limit (Rs.) <input type="number" id="budget-limit" step="0.01"></label>
+        <button class="btn btn-primary" id="budget-submit" type="button">Set Budget</button>
+        <p class="status-msg" id="budget-status"></p>
+      </div>
+      <div class="card table-card">
+        <table id="budgets-table">
+          <thead><tr><th>Category</th><th>Spent</th><th>Limit</th><th>% Used</th><th>Status</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section-savings" class="section">
+      <h1>Savings Tracker</h1>
+      <div class="card inline-form">
+        <label>Monthly Income (Rs.) <input type="number" id="savings-income" step="0.01"></label>
+        <label>Savings Goal (%) <input type="number" id="savings-goal" step="0.1"></label>
+        <button class="btn btn-primary" id="savings-submit" type="button">Update</button>
+      </div>
+      <div class="card">
+        <p id="savings-summary"></p>
+        <p class="progress-label">Progress toward savings goal</p>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="savings-progress-fill"></div></div>
+      </div>
+    </section>
+
+    <section id="section-family" class="section">
+      <h1>Family &amp; Nutrition</h1>
+      <p class="disclaimer">This is a simplified educational model for a college project - not medical or dietary advice.</p>
+      <div class="card inline-form">
+        <label>Name <input type="text" id="member-name"></label>
+        <label>Age <input type="number" id="member-age"></label>
+        <label>Gender
+          <select id="member-gender"><option value="M">Male</option><option value="F">Female</option></select>
+        </label>
+        <label>Height (cm) <input type="number" id="member-height" step="0.1"></label>
+        <label>Weight (kg) <input type="number" id="member-weight" step="0.1"></label>
+        <label>Activity
+          <select id="member-activity">
+            <option value="sedentary">Sedentary</option>
+            <option value="light" selected>Light</option>
+            <option value="moderate">Moderate</option>
+            <option value="active">Active</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" id="member-submit" type="button">Add Family Member</button>
+        <p class="status-msg" id="member-status"></p>
+      </div>
+      <div class="card table-card">
+        <table id="family-table">
+          <thead><tr><th></th><th>Name</th><th>Age</th><th>Gender</th><th>BMI</th><th>Category</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section-insights" class="section">
+      <h1>AI Insights</h1>
+      <p class="disclaimer">Powered by a transparent, rule-based recommendation engine - fully offline, every suggestion traceable to a specific rule.</p>
+
+      <div class="cards-row">
+        <div class="stat-card"><div class="stripe stripe-primary"></div><div class="stat-label">RICE / MONTH</div><div class="stat-value" id="insights-rice">0 kg</div></div>
+        <div class="stat-card"><div class="stripe stripe-accent"></div><div class="stat-label">DAL / MONTH</div><div class="stat-value" id="insights-dal">0 kg</div></div>
+        <div class="stat-card"><div class="stripe stripe-warning"></div><div class="stat-label">OIL / MONTH</div><div class="stat-value" id="insights-oil">0 L</div></div>
+      </div>
+
+      <div class="card chart-card">
+        <h3>Essentials Cost vs Food Budget</h3>
+        <canvas id="chart-essentials"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Per-Member Breakdown</h3>
+        <table id="insights-member-table">
+          <thead><tr><th>Member</th><th>BMI</th><th>Category</th><th>TDEE (kcal)</th><th>Rice (kg)</th><th>Dal (kg)</th><th>Oil (L)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Recommendations</h3>
+        <ul id="insights-recommendations"></ul>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="lib/chart.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

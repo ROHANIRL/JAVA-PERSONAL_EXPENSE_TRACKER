@@ -1,0 +1,2 @@
+This file is created automatically when you choose 'Backup Expenses to File' (option 10) from the console menu.
+It writes a full plain-text snapshot of all expenses, independent of the MySQL database.
